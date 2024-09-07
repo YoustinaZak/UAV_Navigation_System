@@ -40,11 +40,29 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c1;      ///????
 
 /* USER CODE BEGIN PV */
+Alcd_t lcd1={
+		.Data_GPIO=GPIOA,
+		.Data_GPIO_Start_Pin=0,
+		.RS_GPIO=GPIOA,
+		.RS_GPIO_Pin=GPIO_PIN_4,
+		.EN_GPIO=GPIOA,
+		.EN_GPIO_Pin=GPIO_PIN_5,
+};
 
-MPU_T mpu_6050 ={};
+MPU_t mpu_6050 ={
+
+        .acc_scale_range = range_16g,
+        .gyro_scale_range = range_250,
+		.HW_Interface.Read_UI =  I2C_MPU_READ,
+		.HW_Interface.Write_UI = I2C_MPU_WRITE,
+		.HW_Interface.Check_UI= I2C_MPU_CHECK
+};
+
+uint8_t test[40];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,13 +109,36 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  Alcd_Init(& lcd1, 1, 0);                     //removeable
+  Alcd_PutAt_n(&lcd1, 1, 0, "UnderTest", 9);    //removeable
+  HAL_Delay(3000);                             //removeable
 
+
+  MPU_Check(&mpu_6050);  //test success
+  MPU_Init(&mpu_6050);   //test success
+  uint8_t Data[40];
+  uint8_t test_var;
+  //Data[0]=0x1C;
+  //Data[1]=1<<3;
+  //HAL_I2C_Master_Transmit(&hi2c1, 0x68 << 1,
+  							//Data, 2, 100);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      MPU_GET_ACC_RAW(&mpu_6050);
+      MPU_GET_GYRO_RAW(&mpu_6050);
+      MPU_CALC_ACC_NORM(&mpu_6050);
+      MPU_CALC_GYRO_NORM(&mpu_6050);
+
+	  sprintf(test,"x:%d",(int)(mpu_6050.norm_gyro_x ));
+	  sprintf(Data,"z:%d",(int)(mpu_6050.norm_gyro_z ));
+	  Alcd_PutAt_n(&lcd1, 0, 0, test, strlen(test));
+	  Alcd_PutAt_n(&lcd1, 1, 0, Data, strlen(Data));
+	  HAL_Delay(500);
+	  Alcd_Clear(&lcd1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

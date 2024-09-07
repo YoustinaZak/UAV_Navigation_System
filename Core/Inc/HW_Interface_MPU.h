@@ -2,17 +2,19 @@
  * HW_Interface_MPU.h
  *
  *  Created on: Sep 4, 2024
- *      Author: hp
+ *      Author: Youstina Magdy
  */
 
 #ifndef INC_HW_INTERFACE_MPU_H_
 #define INC_HW_INTERFACE_MPU_H_
 
+#include "stm32f1xx_hal.h"
 #include "../../Drivers/MPU_6050.h"
-#define MPU_slave_address 0b110100    //LSB is AD0 (there's a missing bit)
 
-void I2C_READ();
-void I2C_INIT();
 
+
+uint8_t I2C_MPU_READ(uint8_t SL_address, uint8_t *Data, uint8_t Len);
+uint8_t I2C_MPU_WRITE(uint8_t SL_address, uint8_t *Data, uint8_t Len);
+uint8_t I2C_MPU_CHECK(uint8_t SL_address);
 
 #endif /* INC_HW_INTERFACE_MPU_H_ */
