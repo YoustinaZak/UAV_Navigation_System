@@ -32,7 +32,7 @@ typedef struct{
 	uint8_t acc_scale_buffer[2];
 	acc_scale_t acc_scale_range;            //user programmable
 
-	int16_t acc_buffer[7];
+	int16_t acc_buffer[6];
 	int16_t acc_x;
 	float norm_acc_x;
 	int16_t acc_y;
@@ -40,7 +40,7 @@ typedef struct{
 	int16_t acc_z;
 	float norm_acc_z;
 
-	int16_t gyro_buffer[7];
+	int16_t gyro_buffer[6];
 	int16_t gyro_x;
 	float norm_gyro_x;
 	int16_t gyro_y;

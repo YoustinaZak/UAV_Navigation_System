@@ -39,11 +39,12 @@ void MPU_Init(MPU_t *sensor){            //test success
  */
 void MPU_GET_ACC_RAW(MPU_t *sensor){ //leh pointer
 
-	sensor->acc_buffer[0]=59;                               //recheck
-	sensor->HW_Interface.Read_UI(MPU_slave_address, sensor->acc_buffer, 7 );
-	sensor->acc_x = sensor->acc_buffer[1] << 8 | sensor->acc_buffer[2];
-	sensor->acc_y = sensor->acc_buffer[3] << 8 | sensor->acc_buffer[4];
-	sensor->acc_z = sensor->acc_buffer[5] << 8 | sensor->acc_buffer[6];
+	uint8_t reg_address=59;                               //recheck
+	sensor->HW_Interface.Write_UI(MPU_slave_address, &reg_address, 1 );
+	sensor->HW_Interface.Read_UI(MPU_slave_address, sensor->acc_buffer, 6 );
+	sensor->acc_x = sensor->acc_buffer[0] << 8 | sensor->acc_buffer[1];
+	sensor->acc_y = sensor->acc_buffer[2] << 8 | sensor->acc_buffer[3];
+	sensor->acc_z = sensor->acc_buffer[4] << 8 | sensor->acc_buffer[5];
 }
 
 /**
@@ -54,11 +55,11 @@ void MPU_GET_ACC_RAW(MPU_t *sensor){ //leh pointer
  */
 void MPU_GET_GYRO_RAW(MPU_t *sensor){ //leh pointer
 
-	sensor->gyro_buffer[0]=67;
-	sensor->HW_Interface.Read_UI(MPU_slave_address, sensor->gyro_buffer, 7 );
-	sensor->gyro_x = sensor->gyro_buffer[1] << 8 | sensor->gyro_buffer[2];
-	sensor->gyro_y = sensor->gyro_buffer[3] << 8 | sensor->gyro_buffer[4];
-	sensor->gyro_z = sensor->gyro_buffer[5] << 8 | sensor->gyro_buffer[6];
+	uint8_t reg_address =67;
+	sensor->HW_Interface.Write_UI(MPU_slave_address, &reg_address, 1 );
+	sensor->gyro_x = sensor->gyro_buffer[0] << 8 | sensor->gyro_buffer[1];
+	sensor->gyro_y = sensor->gyro_buffer[2] << 8 | sensor->gyro_buffer[3];
+	sensor->gyro_z = sensor->gyro_buffer[4] << 8 | sensor->gyro_buffer[5];
 }
 
 /**
