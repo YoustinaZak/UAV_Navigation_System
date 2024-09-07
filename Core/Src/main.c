@@ -133,8 +133,8 @@ int main(void)
       MPU_CALC_ACC_NORM(&mpu_6050);
       MPU_CALC_GYRO_NORM(&mpu_6050);
 
-	  sprintf(test,"x:%d",(int)(mpu_6050.norm_gyro_x ));
-	  sprintf(Data,"z:%d",(int)(mpu_6050.norm_gyro_z ));
+	  sprintf(test,"x:%05d",(int)(mpu_6050.norm_acc_x *100));
+	  sprintf(Data,"z:%05d",(int)(mpu_6050.norm_acc_z *100));
 	  Alcd_PutAt_n(&lcd1, 0, 0, test, strlen(test));
 	  Alcd_PutAt_n(&lcd1, 1, 0, Data, strlen(Data));
 	  HAL_Delay(500);
