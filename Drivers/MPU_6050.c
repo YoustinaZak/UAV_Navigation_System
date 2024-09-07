@@ -57,6 +57,7 @@ void MPU_GET_GYRO_RAW(MPU_t *sensor){ //leh pointer
 
 	uint8_t reg_address =67;
 	sensor->HW_Interface.Write_UI(MPU_slave_address, &reg_address, 1 );
+	sensor->HW_Interface.Read_UI(MPU_slave_address, sensor->gyro_buffer, 6 );
 	sensor->gyro_x = sensor->gyro_buffer[0] << 8 | sensor->gyro_buffer[1];
 	sensor->gyro_y = sensor->gyro_buffer[2] << 8 | sensor->gyro_buffer[3];
 	sensor->gyro_z = sensor->gyro_buffer[4] << 8 | sensor->gyro_buffer[5];

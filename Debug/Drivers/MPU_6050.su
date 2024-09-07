@@ -2,5 +2,5 @@
 ../Drivers/MPU_6050.c:26:6:MPU_Init	16	static
 ../Drivers/MPU_6050.c:40:6:MPU_GET_ACC_RAW	24	static
 ../Drivers/MPU_6050.c:56:6:MPU_GET_GYRO_RAW	24	static
-../Drivers/MPU_6050.c:71:6:MPU_CALC_ACC_NORM	24	static
-../Drivers/MPU_6050.c:83:6:MPU_CALC_GYRO_NORM	16	static
+../Drivers/MPU_6050.c:72:6:MPU_CALC_ACC_NORM	24	static
+../Drivers/MPU_6050.c:84:6:MPU_CALC_GYRO_NORM	16	static
