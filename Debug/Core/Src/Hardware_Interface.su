@@ -1,0 +1,2 @@
+../Core/Src/Hardware_Interface.c:12:9:Read_Data	32	static
+../Core/Src/Hardware_Interface.c:17:9:Write_config	32	static

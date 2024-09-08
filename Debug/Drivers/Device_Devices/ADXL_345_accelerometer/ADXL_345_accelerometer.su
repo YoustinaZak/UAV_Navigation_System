@@ -1,0 +1,3 @@
+../Drivers/Device_Devices/ADXL_345_accelerometer/ADXL_345_accelerometer.c:21:16:ADXL345_Init	16	static
+../Drivers/Device_Devices/ADXL_345_accelerometer/ADXL_345_accelerometer.c:39:16:ADXL345_WriteConfig	24	static
+../Drivers/Device_Devices/ADXL_345_accelerometer/ADXL_345_accelerometer.c:68:16:ADXL345_ReadData	24	static
