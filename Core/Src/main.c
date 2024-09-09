@@ -58,7 +58,8 @@ MPU_t mpu_6050 ={
         .gyro_scale_range = range_250,
 		.HW_Interface.Read_UI =  I2C_MPU_READ,
 		.HW_Interface.Write_UI = I2C_MPU_WRITE,
-		.HW_Interface.Check_UI= I2C_MPU_CHECK
+		.HW_Interface.Check_UI= I2C_MPU_CHECK,
+		.HW_Interface.Tick= GET_TICK
 };
 
 uint8_t test[40];
@@ -117,7 +118,8 @@ int main(void)
   MPU_Check(&mpu_6050);  //test success
   MPU_Init(&mpu_6050);   //test success
   uint8_t Data[40];
-  uint8_t test_var;
+  uint8_t zata[40];
+  uint8_t test_var=63;
   //Data[0]=0x1C;
   //Data[1]=1<<3;
   //HAL_I2C_Master_Transmit(&hi2c1, 0x68 << 1,
@@ -128,15 +130,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      MPU_GET_ACC_RAW(&mpu_6050);
-      MPU_GET_GYRO_RAW(&mpu_6050);
-      MPU_CALC_ACC_NORM(&mpu_6050);
-      MPU_CALC_GYRO_NORM(&mpu_6050);
-
-	  sprintf(test,"x:%05d",(int)(mpu_6050.norm_acc_x *100));
-	  sprintf(Data,"z:%05d",(int)(mpu_6050.norm_acc_z *100));
+	  uint8_t Data[40];
+	  uint8_t zata[40];
+      MPU_GET_PITCH_ROLL_YAW(&mpu_6050);
+     /* HAL_I2C_Master_Transmit(&hi2c1, 0x68 << 1, &test_var, 1,100);
+      HAL_I2C_Master_Receive(&hi2c1, 0x68 << 1, Data, 2, 100);*/
+	  sprintf(test,"p:%d",(int)mpu_6050.pitch);
+	  sprintf(Data,"r:%d",(int)mpu_6050.roll);
+	  sprintf(zata,"y:%d",(int)mpu_6050.yaw);
+	  //sprintf(zata,"z:%d",(int16_t) ((mpu_6050.buff[0] << 8)| mpu_6050.buff[1]));
 	  Alcd_PutAt_n(&lcd1, 0, 0, test, strlen(test));
 	  Alcd_PutAt_n(&lcd1, 1, 0, Data, strlen(Data));
+	  Alcd_PutAt_n(&lcd1, 1, 7, zata, strlen(zata));
 	  HAL_Delay(500);
 	  Alcd_Clear(&lcd1);
     /* USER CODE END WHILE */

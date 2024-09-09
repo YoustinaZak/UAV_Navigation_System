@@ -9,7 +9,10 @@
 #define MPU_6050_H_
 
 #include <stdint.h>
+#include <math.h>
+
 #define MPU_slave_address     0b110100<<1  //LSB is AD0 (there's a missing bit)
+#define RAD_TO_DEG 57.2957795131
 
 typedef enum {
 	range_250,  //norm eq:   131/(2^0)
@@ -32,7 +35,7 @@ typedef struct{
 	uint8_t acc_scale_buffer[2];
 	acc_scale_t acc_scale_range;            //user programmable
 
-	int16_t acc_buffer[6];
+	uint8_t acc_buffer[6];
 	int16_t acc_x;
 	float norm_acc_x;
 	int16_t acc_y;
@@ -40,7 +43,7 @@ typedef struct{
 	int16_t acc_z;
 	float norm_acc_z;
 
-	int16_t gyro_buffer[6];
+	uint8_t gyro_buffer[6];
 	int16_t gyro_x;
 	float norm_gyro_x;
 	int16_t gyro_y;
@@ -50,11 +53,16 @@ typedef struct{
 
 	int16_t temp;
 	//self test??
+
+	float pitch;
+	float roll;
+	float yaw;
 	struct {
 		//function pointers
 		uint8_t (*Read_UI)(uint8_t SL_address, uint8_t *Data, uint8_t Len);
 		uint8_t (*Write_UI)(uint8_t SL_address, uint8_t *Data, uint8_t Len);
 		uint8_t (*Check_UI)(uint8_t SL_address);
+		uint32_t (*Tick)();
 	}HW_Interface;
 
 }MPU_t;
@@ -63,5 +71,6 @@ void MPU_GET_ACC_RAW(MPU_t *sensor);
 void MPU_GET_GYRO_RAW(MPU_t *sensor);
 void MPU_CALC_ACC_NORM(MPU_t *sensor);
 void MPU_CALC_GYRO_NORM(MPU_t *sensor);
+void MPU_GET_PITCH_ROLL_YAW(MPU_t *sensor);
 
 #endif /* MPU_6050_H_ */

@@ -68,3 +68,14 @@ uint8_t I2C_MPU_CHECK(uint8_t SL_address){
 	    }
 
 }
+
+/**
+ * @fn uint32_t GET_TICK()
+ * @brief
+ *
+ * @return
+ */
+
+uint32_t GET_TICK(){
+	return HAL_GetTick();
+}

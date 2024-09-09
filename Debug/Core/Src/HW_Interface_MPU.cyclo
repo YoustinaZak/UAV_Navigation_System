@@ -1,3 +1,4 @@
 ../Core/Src/HW_Interface_MPU.c:23:9:I2C_MPU_READ	1
 ../Core/Src/HW_Interface_MPU.c:41:9:I2C_MPU_WRITE	1
 ../Core/Src/HW_Interface_MPU.c:55:9:I2C_MPU_CHECK	3
+../Core/Src/HW_Interface_MPU.c:79:10:GET_TICK	1
