@@ -47,6 +47,6 @@ This project demonstrates the integration of the STM32 microcontroller with the 
    - The temperature sensor data is read and converted to Celsius from the raw output of the MPU6050.
 
 ## Prerequisites
-- STM32 development environment (e.g., STM32CubeIDE or Keil uVision)
+- STM32 development environment (e.g., STM32CubeIDE )
 - Basic understanding of C programming and embedded systems
 - Familiarity with **Dependency Injection** and hardware abstraction techniques
