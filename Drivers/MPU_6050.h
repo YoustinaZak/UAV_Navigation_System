@@ -2,7 +2,7 @@
  * MPU_6050.h
  *
  *  Created on: Sep 4, 2024
- *      Author: Youstina Magdy
+ *      Author: Youstina Magdy Refaat
  */
 
 #ifndef MPU_6050_H_
@@ -51,7 +51,9 @@ typedef struct{
 	int16_t gyro_z;
 	float norm_gyro_z;
 
-	int16_t temp;
+	uint8_t temp_buffer[2];
+	int16_t raw_temp;
+	float norm_temp;
 	//self test??
 
 	float pitch;

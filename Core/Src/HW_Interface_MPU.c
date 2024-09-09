@@ -2,7 +2,7 @@
  * HW_Interface_MPU.c
  *
  *  Created on: Sep 4, 2024
- *      Author: hp
+ *      Author: Youstina Magdy Refaat
  */
 
 #include "../Inc/HW_Interface_MPU.h"
@@ -46,11 +46,9 @@ uint8_t I2C_MPU_WRITE(uint8_t SL_address, uint8_t *Data, uint8_t Len){
 
 /**
  * @fn void I2C_MPU_CECK(uint8_t, uint8_t*, uint8_t)
- * @brief
+ * @brief checks for sleep mode (power management reg) and slave address (WHO_AM_I)
  *
- * @param SL_address
- * @param Data
- * @param Len
+ * @param SL_address slave address
  */
 uint8_t I2C_MPU_CHECK(uint8_t SL_address){
 	uint8_t check;
@@ -71,9 +69,9 @@ uint8_t I2C_MPU_CHECK(uint8_t SL_address){
 
 /**
  * @fn uint32_t GET_TICK()
- * @brief
+ * @brief utilizing ticks in knowing how much time passed since turn on
  *
- * @return
+ * @return number of milliseconds passed since turn on
  */
 
 uint32_t GET_TICK(){

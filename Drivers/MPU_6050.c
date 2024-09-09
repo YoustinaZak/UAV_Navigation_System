@@ -2,27 +2,29 @@
  * MPU_6050.c
  *
  *  Created on: Sep 5, 2024
- *      Author: Youstina Magdy
+ *      Author: Youstina Magdy Refaat
  */
 
 #include "MPU_6050.h"
 
 /**
  * @fn void MPU_Check(MPU_t*)
- * @brief
+ * @brief checks for sleep mode and slave address by using a function pointer
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
+
 void MPU_Check(MPU_t *sensor){
 	sensor->HW_Interface.Check_UI(MPU_slave_address);
 }
 
 /**
  * @fn void MPU_Init(MPU_t*)
- * @brief
+ * @brief initializes full scale range for both gyro and accelerometer
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
+
 void MPU_Init(MPU_t *sensor){            //test success
 	sensor->gyro_scale_buffer[0]=0x1B;
 	sensor->gyro_scale_buffer[1]= (sensor->gyro_scale_range)<<3;
@@ -31,12 +33,14 @@ void MPU_Init(MPU_t *sensor){            //test success
 	sensor->HW_Interface.Write_UI(MPU_slave_address, sensor->gyro_scale_buffer, 2 );
 	sensor->HW_Interface.Write_UI(MPU_slave_address, sensor->acc_scale_buffer, 2 );
 }
+
 /**
  * @fn void MPU_GET_ACC_RAW(MPU_t*)
- * @brief
+ * @brief gets raw data of the accel
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
+
 void MPU_GET_ACC_RAW(MPU_t *sensor){ //leh pointer
 
 	uint8_t reg_address=59;                               //recheck
@@ -52,9 +56,9 @@ void MPU_GET_ACC_RAW(MPU_t *sensor){ //leh pointer
 
 /**
  * @fn void MPU_GET_GYRO_RAW(MPU_t*)
- * @brief
+ * @brief gets raw data of the gyro
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
 void MPU_GET_GYRO_RAW(MPU_t *sensor){ //leh pointer
 
@@ -68,10 +72,11 @@ void MPU_GET_GYRO_RAW(MPU_t *sensor){ //leh pointer
 
 /**
  * @fn void MPU_CALC_ACC_NORM(MPU_t*)
- * @brief
+ * @brief calculates normalized accel readings
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
+
 void MPU_CALC_ACC_NORM(MPU_t *sensor){
 	sensor->norm_acc_x = (float)sensor->acc_x / ((1<<15) / (1<<(1+sensor->acc_scale_range)));
 	sensor->norm_acc_y = (float)sensor->acc_y / ((1<<15) / (1<<(1+sensor->acc_scale_range)));
@@ -80,16 +85,39 @@ void MPU_CALC_ACC_NORM(MPU_t *sensor){
 
 /**
  * @fn void MPU_CALC_GYRO_NORM(MPU_t*)
- * @brief
+ * @brief calculates normalized gyro readings
  *
- * @param sensor
+ * @param sensor an instance of the MPU sensor
  */
+
 void MPU_CALC_GYRO_NORM(MPU_t *sensor){
 	sensor->norm_gyro_x = sensor->gyro_x / (131 / (1<<sensor->gyro_scale_range));
 	sensor->norm_gyro_y = sensor->gyro_y / (131 / (1<<sensor->gyro_scale_range));
 	sensor->norm_gyro_z = sensor->gyro_z / (131 / (1<<sensor->gyro_scale_range));
 
 }
+
+/**
+ * @fn void MPU_GET_TEMP(MPU_t*)
+ * @brief gets raw temp reading and calculates normalized temp
+ *
+ * @param sensor an instance of the MPU sensor
+ */
+
+void MPU_GET_TEMP(MPU_t *sensor){
+	uint8_t reg_address =65;
+    sensor->HW_Interface.Write_UI(MPU_slave_address, &reg_address, 1 );
+	sensor->HW_Interface.Read_UI(MPU_slave_address, sensor->temp_buffer, 6 );
+	sensor->raw_temp = (int16_t)((sensor->temp_buffer[0] << 8) | sensor->temp_buffer[1]);
+	sensor->norm_temp = (float)(sensor->raw_temp/340.0) +36.53; //temp in celsius
+}
+
+/**
+ * @fn void MPU_GET_PITCH_ROLL_YAW(MPU_t*)
+ * @brief calculates pitch, roll and yaw angles
+ *
+ * @param sensor an instance of the MPU sensor
+ */
 
 void MPU_GET_PITCH_ROLL_YAW(MPU_t *sensor){
 
